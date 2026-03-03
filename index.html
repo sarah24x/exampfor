@@ -1,80 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello, Deno</title>
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Regular.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Moranga-Medium.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="https://demo-styles.deno.deno.net/fonts/Recursive_Variable.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="https://demo-styles.deno.deno.net/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Private Profile</title>
   <style>
-    img {
-      display: inline-block;
-      vertical-align: middle;
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, rgba(255, 126, 95, 0.8), rgba(254, 180, 123, 0.8), rgba(255, 107, 107, 0.8), rgba(255, 215, 0, 0.8));
+      background-size: 200% 200%;
+      animation: gradientBackground 8s ease infinite;
+      margin: 0;
+    }
+
+    @keyframes gradientBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+      position: relative;
+    }
+
+    .notification {
+      margin-bottom: 15px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .linkField {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+      text-align: center;
+      margin-bottom: 15px;
+      user-select: all;
+    }
+
+    .copyButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(0, 123, 255, 0.8);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .copyButton:hover {
+      background: rgba(0, 123, 255, 1);
     }
   </style>
 </head>
-
 <body>
-    <main>
-      <section>
-        <a href="https://deno.com/deploy">
-        </a>
-      <h1>
-        <p>
-          Hello, Deno!
-        </p>
-      </h1>
-      <p>
-        This little example is being served by <a href="https://deno.com/">Deno</a>.
-        You can run it locally or in porduction on <a href="https://deno.com/deploy">Deno Deploy</a> or other hosting platforms.
-      </p>
-      <ul>
-        <li>Run it locally with<code>deno task dev</code></li>
-        <li>Deploy it to <a href="https://deno.com/deploy">Deno Deploy</a> via the CLI by running<code>deno deploy</code></li>
-        <li>Run it locally and share it publically by running <code>deno deploy --connected</code></li>
-      </ul>
-    </section>
-      <hr>
-    <section>
-      <h2>What's next?</h2>
-      <p>
-        You can clone this example and deploy it to Deno Deploy in just a few clicks
-        <a href="https://app.deno.com/new?clone=https://github.com/denoland/examples&path=hello-world"><img src="https://deno.com/button" alt="Deploy on Deno"/></a>
-      </p>
-      <ul>
-        <li>
-          <a href="https://docs.deno.com/examples">More examples in the Deno Docs</a>
-        </li>
-        <li>
-          <a href="https://deno.com/deploy">Deno Deploy Early Access</a>
-        </li>
-      </ul>
-    </section>
-    </main>
-    <hr>
-    <footer>
-      <section>
-      <ul class="flex-btwn">
-        <li>
-          <a href="https://deno.com">BlueSky</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Twitter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">YouTube</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Newsletter</a>
-        </li>
-        <li>
-          <a href="https://deno.com">Deno</a>
-        </li>
-      </ul>
-      </section>
-    </footer>
+  <div class="container">
+    <div class="notification" id="notification">
+      Copy the link and paste it into your browser.
+    </div>
+    <div class="linkField" id="linkField">
+      http://findinglove.kesug.com/yyy
+    </div>
+    <button class="copyButton" id="copyButton">
+      Copy
+    </button>
+  </div>
+
+  <script>
+    function getParameterByName(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    const linkCode = getParameterByName('s');
+    const baseURL = '';
+    const linkField = document.getElementById('linkField');
+    const copyButton = document.getElementById('copyButton');
+    const notification = document.getElementById('notification');
+
+    let fullLink = 'http://findinglove.kesug.com/yyy';  // Default link
+
+    if (linkCode) {
+      fullLink = baseURL + linkCode;
+      linkField.textContent = fullLink;
+    }
+
+    copyButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(fullLink).then(() => {
+        notification.textContent = 'Great! ✅ Successfully copied to the clipboard.Now paste it into your browser and continue.';
+        notification.style.backgroundColor = '#4169E1';
+      }).catch(err => {
+        notification.textContent = 'Failed to copy. Please copy manually.';
+        notification.style.backgroundColor = 'rgba(200, 0, 0, 0.8)';
+      });
+    });
+  </script>
 </body>
-</html>
+  </html>
